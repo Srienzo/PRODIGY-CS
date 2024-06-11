@@ -41,6 +41,14 @@ def check_password():
     else:
         messagebox.showwarning("Password Strength", "Weak password!\n{}".format("\n".join(error_msgs)))
 
+def toggle_password_visibility():
+    if password_entry.cget('show') == '*':
+        password_entry.config(show='')
+        show_password_btn.config(text='Hide Password')
+    else:
+        password_entry.config(show='*')
+        show_password_btn.config(text='Show Password')
+
 # GUI setup
 root = tk.Tk()
 root.title("Password Strength Checker")
@@ -53,13 +61,16 @@ accent_color = "#007bff"  # Blue color
 button_bg_color = "#007bff"
 button_fg_color = "#ffffff"
 
-password_label = tk.Label(root, text="Enter Password:", bg=bg_color, fg=fg_color)
+# Define font settings
+font_settings = ("Arial", 14)
+
+password_label = tk.Label(root, text="Enter Password:", bg=bg_color, fg=fg_color, font=font_settings)
 password_label.grid(row=0, column=0, padx=10, pady=5)
-password_entry = tk.Entry(root, show="*", bg=bg_color, fg=fg_color, insertbackground=accent_color)
+password_entry = tk.Entry(root, show="*", bg=bg_color, fg=fg_color, insertbackground=accent_color, font=font_settings)
 password_entry.grid(row=0, column=1, padx=10, pady=5)
 password_entry.bind("<KeyRelease>", lambda event: update_strength_bar(password_entry.get()))
 
-strength_label = tk.Label(root, text="Password Strength:", bg=bg_color, fg=fg_color)
+strength_label = tk.Label(root, text="Password Strength:", bg=bg_color, fg=fg_color, font=font_settings)
 strength_label.grid(row=1, column=0, padx=10, pady=5)
 
 style = ttk.Style()
@@ -72,7 +83,10 @@ style.configure("green.Horizontal.TProgressbar", foreground='green', background=
 strength_bar = ttk.Progressbar(root, length=200, mode='determinate', style="red.Horizontal.TProgressbar")
 strength_bar.grid(row=1, column=1, padx=10, pady=5)
 
-check_button = tk.Button(root, text="Check Strength", command=check_password, bg=button_bg_color, fg=button_fg_color)
+check_button = tk.Button(root, text="Check Strength", command=check_password, bg=button_bg_color, fg=button_fg_color, font=font_settings)
 check_button.grid(row=2, column=0, columnspan=2, pady=10)
+
+show_password_btn = tk.Button(root, text="Show Password", command=toggle_password_visibility, bg=button_bg_color, fg=button_fg_color, font=font_settings)
+show_password_btn.grid(row=3, column=0, columnspan=2, pady=10)
 
 root.mainloop()
