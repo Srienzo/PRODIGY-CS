@@ -59,6 +59,21 @@ def decrypt():
     load_image(decrypted_image_path, label_decrypted)
     messagebox.showinfo("Success", "Image decrypted successfully.")
 
+def clear_images():
+    label_original.config(image='')
+    label_original.image = None
+    label_encrypted.config(image='')
+    label_encrypted.image = None
+    label_decrypted.config(image='')
+    label_decrypted.image = None
+    entry_image_path.delete(0, tk.END)
+    try:
+        os.remove("encrypted_image.png")
+        os.remove("decrypted_image.png")
+    except FileNotFoundError:
+        pass
+    messagebox.showinfo("Success", "All images cleared successfully.")
+
 # Create the main window
 root = tk.Tk()
 root.title("Image Encryption and Decryption @Sherwin @ProdigyInfoTech")
@@ -105,6 +120,9 @@ button_encrypt.grid(row=2, column=0, columnspan=3, pady=10)
 
 button_decrypt = tk.Button(frame, text="Decrypt Image", command=decrypt, bg='#5a5a5a', fg='white', activebackground='#757575', activeforeground='white')
 button_decrypt.grid(row=3, column=0, columnspan=3, pady=10)
+
+button_clear = tk.Button(frame, text="Clear", command=clear_images, bg='red', fg='white', activebackground='#ff6666', activeforeground='white')
+button_clear.grid(row=4, column=0, columnspan=3, pady=10)
 
 label_original = tk.Label(root, bg='#2b2b2b')
 label_original.place(relx=0.1, rely=0.8, anchor="center")
